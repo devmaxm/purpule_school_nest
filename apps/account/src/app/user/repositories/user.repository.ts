@@ -8,14 +8,13 @@ import {UserEntity} from "../entities/user.entity";
 @Injectable()
 export class UserRepository {
   constructor(
-    @InjectModel(User.name)
-    private readonly userModel: Model<User>
+    @InjectModel(User.name) private readonly userModel: Model<User>
   ) {
   }
 
-  public async createUser(user: UserEntity): Promise<User> {
-    const newUser =  new this.userModel(user)
-    return newUser.save()
+  async createUser(user: UserEntity) {
+    const newUser = new this.userModel(user);
+    return newUser.save();
   }
 
   public async findUser(email: string) {

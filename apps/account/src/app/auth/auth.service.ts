@@ -3,6 +3,7 @@ import {UserRepository} from "../user/repositories/user.repository";
 import {JwtService} from "@nestjs/jwt";
 import {UserEntity} from "../user/entities/user.entity";
 import {UserRole} from "@purpule-school/interfaces";
+import {AccountRegister} from "@purpule-school/contracts";
 
 @Injectable()
 export class AuthService {
@@ -25,9 +26,9 @@ export class AuthService {
     return {id: user._id}
   }
 
-  public async register(email: string, password: string, displayName?: string) {
+  public async register({email, password, displayName}: AccountRegister.Request) {
     const isUserExist = await this.userRepository.findUser(email)
-    if(isUserExist) {
+    if (isUserExist) {
       throw new HttpException('User with this email is already exist', HttpStatus.BAD_REQUEST)
     }
     const newUserEntity = await new UserEntity({
@@ -42,6 +43,8 @@ export class AuthService {
 
 
   public async login(id: string) {
-    return await this.jwtService.signAsync({id})
+    return {
+      access_token: await this.jwtService.signAsync({id}, )
+    }
   }
 }

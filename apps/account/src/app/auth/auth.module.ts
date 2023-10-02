@@ -8,7 +8,7 @@ import {getJWTConfig} from "../configs/jwt.config";
 @Module({
   imports: [
     UserModule,
-    JwtModule.register(getJWTConfig())
+    JwtModule.registerAsync(getJWTConfig())
   ],
   controllers: [AuthController],
   providers: [AuthService],

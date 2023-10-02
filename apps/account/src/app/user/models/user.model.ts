@@ -1,7 +1,8 @@
 import {Document} from 'mongoose'
 import {IUser, UserRole} from "@purpule-school/interfaces";
-import {Prop, SchemaFactory} from "@nestjs/mongoose";
+import {Prop, SchemaFactory, Schema} from "@nestjs/mongoose";
 
+@Schema()
 export class User extends Document implements IUser {
   @Prop()
   displayName?: string;
@@ -16,4 +17,4 @@ export class User extends Document implements IUser {
   role: UserRole;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User)
+export const UserSchema = SchemaFactory.createForClass(User);

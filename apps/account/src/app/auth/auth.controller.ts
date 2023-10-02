@@ -1,28 +1,7 @@
-import {Controller, Post} from '@nestjs/common';
+import {Body, Controller, Post} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {IsOptional, IsString, MinLength} from "class-validator";
-
-class RegisterDto {
-  @IsString()
-  email: string
-
-  @IsString()
-  @MinLength(7)
-  password: string
-
-  @IsString()
-  @IsOptional()
-  displayName?: string
-}
-
-class LoginDto {
-  @IsString()
-  email: string
-
-  @IsString()
-  @MinLength(7)
-  password: string
-}
+import {AccountLogin, AccountRegister} from "@purpule-school/contracts";
 
 
 @Controller('auth')
@@ -33,14 +12,14 @@ export class AuthController {
   }
 
   @Post('register')
-  async register({email, password, displayName}: RegisterDto) {
-    return await this.authService.register(email, password, displayName)
+  async register(@Body() dto: AccountRegister.Request): Promise<AccountRegister.Response> {
+    return await this.authService.register(dto)
   }
 
   @Post('login')
-  async login({email, password}: LoginDto) {
+  async login(@Body() {email, password}: AccountLogin.Request): Promise<AccountLogin.Response> {
     const {id} = await this.authService.validateUser(email, password)
-    return await this.authService.login(id)
+    return await this.authService.login(id as string)
   }
 
 }
