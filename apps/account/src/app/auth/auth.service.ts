@@ -26,7 +26,7 @@ export class AuthService {
     return {id: user._id}
   }
 
-  public async register({email, password, displayName}: AccountRegister.Request) {
+  public async register(email: string, password: string, displayName?: string) {
     const isUserExist = await this.userRepository.findUser(email)
     if (isUserExist) {
       throw new HttpException('User with this email is already exist', HttpStatus.BAD_REQUEST)
